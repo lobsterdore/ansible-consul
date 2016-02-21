@@ -6,17 +6,39 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - zip
+    - unzip
 
 - name: Download Consul
   become: yes
   get_url:
-    url: "https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip"
-    dest: "/usr/local/src/consul_0.6.3_linux_amd64.zip"
+    url: "https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_amd64.zip"
+    dest: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
 
 - name: Extract Consul
   become: yes
   unarchive:
-    src: "/usr/local/src/consul_0.6.3_linux_amd64.zip"
+    src: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
     dest: "/usr/local/bin/"
     copy: no
+
+- name: Install Consul service
+  become: yes
+  copy:
+    dest: /etc/init/consul.conf
+    mode: 0755
+    src: consul.conf
+
+- name: Enable Consul service
+  service:
+    enabled: yes
+    name: consul
+
+- name: Create Consul required directories
+  become: yes
+  file:
+    mode: 0755
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/etc/consul.d"
+    - "{{ consul.data_dir }}"

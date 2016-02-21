@@ -1,2 +1,19 @@
 ---
-# handlers file for ansible-consul
+
+- name: start consul
+  sudo: yes
+  service:
+    name: consul
+    state: started
+
+- name: stop consul
+  sudo: yes
+  service:
+    name: consul
+    state: stopped
+
+- name: restart consul
+  sudo: yes
+  service:
+    name: consul
+    state: restarted

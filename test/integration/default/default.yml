@@ -1,0 +1,7 @@
+---
+
+- name: Provision role
+  hosts: all
+
+  roles:
+    - role: ansible-consul

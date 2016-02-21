@@ -1,0 +1,22 @@
+---
+
+- name: Install required packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - zip
+
+- name: Download Consul
+  become: yes
+  get_url:
+    url: "https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip"
+    dest: "/usr/local/src/consul_0.6.3_linux_amd64.zip"
+
+- name: Extract Consul
+  become: yes
+  unarchive:
+    src: "/usr/local/src/consul_0.6.3_linux_amd64.zip"
+    dest: "/usr/local/bin/"
+    copy: no

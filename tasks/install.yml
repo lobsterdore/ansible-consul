@@ -42,3 +42,4 @@
   with_items:
     - "/etc/consul.d"
     - "{{ consul.data_dir }}"
+    - "/var/log/consul"

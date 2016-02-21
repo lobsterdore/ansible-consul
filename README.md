@@ -1,3 +1,3 @@
 # Ansible Consul
 
-Just the basics at the moment.
+Installs and configures Consul.

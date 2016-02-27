@@ -15,6 +15,7 @@
     - restart consul
 
 - name: Start Consul service
+  become: yes
   service:
     state: started
     name: consul

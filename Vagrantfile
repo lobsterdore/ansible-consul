@@ -3,10 +3,10 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "test/integration/default/default.yml"
-#    ansible.tags = [
-#      'build',
-#      'configure'
-#    ]
+    ansible.tags = [
+      'build',
+      'configure'
+    ]
   end
 
   config.vm.provider "virtualbox" do |v|

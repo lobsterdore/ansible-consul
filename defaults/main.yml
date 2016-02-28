@@ -1,9 +1,11 @@
 ---
 
 consul:
-  data_dir: "/var/lib/consul"
-  enable_debug: "true"
-  log_level: "info"
-  server: "true"
+  # Put any Consul settings
+  # All these will be place into the config file
+  settings:
+    data_dir: "/var/lib/consul"
+    enable_debug: true
+    log_level: "info"
   startopts: ""
   version: "0.6.3"

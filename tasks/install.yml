@@ -41,5 +41,5 @@
     state: directory
   with_items:
     - "/etc/consul.d"
-    - "{{ consul.data_dir }}"
+    - "{{ consul.settings.data_dir }}"
     - "/var/log/consul"

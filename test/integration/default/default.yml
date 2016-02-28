@@ -5,3 +5,7 @@
 
   roles:
     - role: ansible-consul
+      consul:
+        settings:
+          bootstrap: true
+          server: true

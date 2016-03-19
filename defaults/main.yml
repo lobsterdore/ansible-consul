@@ -1,11 +1,14 @@
 ---
 
 consul:
-  # Put any Consul settings
-  # All these will be place into the config file
+  bind_interface: eth0
   settings:
+    bootstrap: false
+    bootstrap_expect: 1
     data_dir: "/var/lib/consul"
     enable_debug: true
     log_level: "info"
+    server: false
+    start_join: []
   startopts: ""
-  version: "0.6.3"
+  version: "0.6.4"

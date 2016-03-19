@@ -3,8 +3,10 @@
 - name: Configure Consul service defaults
   become: yes
   template:
-    dest: /etc/defaults
+    dest: /etc/default/consul
     src: defaults.j2
+  notify:
+    - restart consul
 
 - name: Create Consul config
   become: yes

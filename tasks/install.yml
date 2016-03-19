@@ -17,16 +17,17 @@
 - name: Extract Consul
   become: yes
   unarchive:
-    src: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
-    dest: "/usr/local/bin/"
     copy: no
+    creates: /usr/local/bin/consul
+    dest: /usr/local/bin/
+    src: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
 
 - name: Install Consul service
   become: yes
-  copy:
+  template:
     dest: /etc/init/consul.conf
     mode: 0755
-    src: consul.conf
+    src: consul.conf.j2
 
 - name: Enable Consul service
   service:
@@ -40,6 +41,6 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "/etc/consul.d"
+    - /etc/consul.d
     - "{{ consul.settings.data_dir }}"
     - "/var/log/consul"

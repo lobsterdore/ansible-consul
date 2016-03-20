@@ -3,11 +3,10 @@
 consul:
   bind_interface: eth0
   settings:
-    bootstrap: false
     bootstrap_expect: 1
     data_dir: "/var/lib/consul"
-    enable_debug: true
-    log_level: "info"
+    enable_debug: false
+    log_level: "warn"
     server: false
     start_join: []
   startopts: ""

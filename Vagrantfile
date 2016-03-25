@@ -5,7 +5,8 @@ Vagrant.configure(2) do |config|
     ansible.playbook = "test/integration/default/default.yml"
     ansible.tags = [
       'build',
-      'configure'
+      'configure',
+      'test'
     ]
   end
 

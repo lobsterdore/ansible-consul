@@ -1,13 +1,20 @@
 ---
 
 consul:
+
+  # role settings
   bind_interface: eth0
-  settings:
-    bootstrap_expect: 1
-    data_dir: "/var/lib/consul"
-    enable_debug: false
-    log_level: "warn"
-    server: false
-    start_join: []
   startopts: ""
   version: "0.6.4"
+
+  # for consuls json settings file
+  settings:
+    bootstrap: "false"
+    bootstrap_expect: "1"
+    datacenter: "aws-eu-west-1"
+    data_dir: "/var/lib/consul"
+    enable_debug: "false"
+    leave_on_terminate: "false"
+    log_level: "warn"
+    server: "false"
+    start_join: []

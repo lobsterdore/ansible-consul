@@ -30,6 +30,7 @@
     src: consul.conf.j2
 
 - name: Enable Consul service
+  become: yes
   service:
     enabled: yes
     name: consul

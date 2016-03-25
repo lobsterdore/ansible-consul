@@ -6,6 +6,19 @@
   roles:
     - role: ansible-consul
       consul:
+        bind_interface: "lo"
         settings:
-          bootstrap: true
-          server: true
+          bootstrap_expect: 1
+          server: "true"
+
+  post_tasks:
+    - name: Make sure Consul is up to date
+      meta: flush_handlers
+
+    - name: Wait for Consul port
+      wait_for:
+        port: 8300
+        state: started
+        timeout: 10
+      tags:
+        - test

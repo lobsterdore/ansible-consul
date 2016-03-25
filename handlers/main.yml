@@ -1,19 +1,19 @@
 ---
 
 - name: start consul
-  sudo: yes
+  become: yes
   service:
     name: consul
     state: started
 
 - name: stop consul
-  sudo: yes
+  become: yes
   service:
     name: consul
     state: stopped
 
 - name: restart consul
-  sudo: yes
+  become: yes
   service:
     name: consul
     state: restarted

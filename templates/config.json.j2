@@ -1,1 +1,17 @@
-{{ consul.settings | to_nice_json }}
+{
+{% if consul.settings.server == 'true' and consul.settings.bootstrap == 'true' %}
+  "bootstrap": true,
+{% endif %}
+{% if consul.settings.server == 'true' and consul.settings.bootstrap != 'true' %}
+  "bootstrap_expect": {{ consul.settings.bootstrap_expect }},
+{% endif %}
+{% if consul.settings.start_join %}
+  "start_join": [{% for host in consul.settings.start_join  %}"{{host}}"{% if not loop.last %}, {% endif %}{% endfor %}],
+{% endif %}
+  "datacenter": "{{ consul.settings.datacenter | default('dc1') }}",
+  "data_dir": "{{ consul.settings.data_dir | default('/var/lib/consul') }}",
+  "enable_debug": {{ consul.settings.enable_debug | default('false') }},
+  "leave_on_terminate": {{ consul.settings.leave_on_terminate | default('false') }},
+  "log_level": "{{ consul.settings.log_level | default('warn') }}",
+  "server": {{ consul.settings.server | default('false') }}
+}

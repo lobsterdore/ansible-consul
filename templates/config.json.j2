@@ -13,5 +13,6 @@
   "enable_debug": {{ consul.settings.enable_debug | default('false') }},
   "leave_on_terminate": {{ consul.settings.leave_on_terminate | default('false') }},
   "log_level": "{{ consul.settings.log_level | default('warn') }}",
+  "node_name": "{{ consul.settings.node_name }}",
   "server": {{ consul.settings.server | default('false') }}
 }

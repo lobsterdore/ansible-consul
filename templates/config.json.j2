@@ -8,11 +8,11 @@
 {% if consul.settings.start_join %}
   "start_join": [{% for host in consul.settings.start_join  %}"{{host}}"{% if not loop.last %}, {% endif %}{% endfor %}],
 {% endif %}
-  "datacenter": "{{ consul.settings.datacenter | default('dc1') }}",
-  "data_dir": "{{ consul.settings.data_dir | default('/var/lib/consul') }}",
-  "enable_debug": {{ consul.settings.enable_debug | default('false') }},
-  "leave_on_terminate": {{ consul.settings.leave_on_terminate | default('false') }},
-  "log_level": "{{ consul.settings.log_level | default('warn') }}",
+  "datacenter": "{{ consul.settings.datacenter }}",
+  "data_dir": "{{ consul.directories.data_dir  }}",
+  "enable_debug": {{ consul.settings.enable_debug }},
+  "leave_on_terminate": {{ consul.settings.leave_on_terminate }},
+  "log_level": "{{ consul.settings.log_level }}",
   "node_name": "{{ consul.settings.node_name }}",
-  "server": {{ consul.settings.server | default('false') }}
+  "server": {{ consul.settings.server }}
 }

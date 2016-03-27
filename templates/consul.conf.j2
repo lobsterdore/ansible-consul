@@ -16,9 +16,9 @@ script
   # Get the public IP
   BIND=`ifconfig $BIND_INTERFACE | grep "inet addr" | awk '{ print substr($2,6) }'`
 
-  exec /usr/local/bin/consul agent \
-    -config-dir="/etc/consul.d" \
+  exec /usr/bin/consul agent \
+    -config-dir="{{ consul.directories.config_dir }}" \
     -bind=$BIND \
-    ${CONSUL_FLAGS} \
-    >>/var/log/consul/consul.log 2>&1
+    ${CONSUL_STARTOPS} \
+    >> {{ consul.directories.log_dir }}/consul.log 2>&1
 end script

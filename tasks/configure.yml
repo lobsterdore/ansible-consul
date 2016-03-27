@@ -11,7 +11,7 @@
 - name: Create Consul config
   become: yes
   template:
-    dest: /etc/consul.d/config.json
+    dest: "{{ consul.directories.config_dir }}/config.json"
     src: config.json.j2
   notify:
     - restart consul

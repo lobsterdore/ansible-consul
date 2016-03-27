@@ -8,19 +8,35 @@
   with_items:
     - unzip
 
+- name: Create Consul required directories
+  become: yes
+  file:
+    mode: 0755
+    path: "{{ item.value }}"
+    state: directory
+  with_dict: consul.directories
+
 - name: Download Consul
   become: yes
   get_url:
     url: "https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_amd64.zip"
-    dest: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
+    dest: "/var/tmp/consul_{{ consul.version }}_linux_amd64.zip"
 
 - name: Extract Consul
   become: yes
   unarchive:
     copy: no
-    creates: /usr/local/bin/consul
-    dest: /usr/local/bin/
-    src: "/usr/local/src/consul_{{ consul.version }}_linux_amd64.zip"
+    creates: "{{ consul.directories.install_dir }}/consul"
+    dest: "{{ consul.directories.install_dir }}"
+    src: "/var/tmp/consul_{{ consul.version }}_linux_amd64.zip"
+
+- name: Link to Consul binary
+  become: yes
+  file:
+    dest: /usr/bin/consul
+    mode: 731
+    src: "{{ consul.directories.install_dir }}/consul"
+    state: link
 
 - name: Install Consul service
   become: yes
@@ -34,14 +50,3 @@
   service:
     enabled: yes
     name: consul
-
-- name: Create Consul required directories
-  become: yes
-  file:
-    mode: 0755
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - /etc/consul.d
-    - "{{ consul.settings.data_dir }}"
-    - "/var/log/consul"

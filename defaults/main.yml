@@ -1,18 +1,14 @@
 ---
 
 consul:
-
   # role settings
   bind_interface: eth0
-  startopts: ""
-  version: "0.6.4"
-
+  checksum: "abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627"
   directories:
     config_dir: "/etc/consul.d"
     data_dir: "/var/lib/consul"
     install_dir: "/usr/share/consul"
     log_dir: "/var/log/consul"
-
   # for consuls json settings file
   settings:
     bootstrap: "false"
@@ -24,3 +20,5 @@ consul:
     node_name: "{{ ansible_fqdn }}"
     server: "false"
     start_join: []
+  startopts: ""
+  version: "0.6.4"

@@ -2,6 +2,9 @@
 
 consul:
   # role settings
+  aws_autodiscover_servers:
+    enabled: false
+    lookup_filter: "Name=tag:Environment,Values=dev Name=tag:Role,Values=consul_server"
   bind_interface: eth0
   checksum: "abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627"
   directories:

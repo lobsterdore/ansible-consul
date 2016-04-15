@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function die {
+  echo -e "\033[1;31mError: $1\033[0m"
+  exit 1
+}
+
+function main {
+
+  local IPS
+  IPS=( $( aws ec2 describe-instances \
+    --filters Name=tag:Env,Values=prd Name=tag:Role,Values=consul_server Name=instance-state-name,Values=running \
+    --output text \
+    --query "Reservations[*].Instances[*].PrivateIpAddress") )
+  echo "${IPS[@]}"
+}
+
+
+main "$@"

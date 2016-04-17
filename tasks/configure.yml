@@ -1,5 +1,13 @@
 ---
 
+- name: Copy AWS autodiscover script
+  become: yes
+  copy:
+    src: aws_ips_autodiscover
+    dest: "/usr/local/bin/aws_ips_autodiscover"
+    mode: 0750
+  when: consul.aws_ips_autodiscover.enabled
+
 - name: Configure Consul service defaults
   become: yes
   template:

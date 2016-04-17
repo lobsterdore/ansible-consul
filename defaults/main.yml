@@ -2,7 +2,7 @@
 
 consul:
   # role settings
-  aws_autodiscover_servers:
+  aws_ips_autodiscover:
     enabled: false
     lookup_filter: "Name=tag:Environment,Values=dev Name=tag:Role,Values=consul_server"
   bind_interface: eth0

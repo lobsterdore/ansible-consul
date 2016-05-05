@@ -12,6 +12,12 @@
     name: consul
     state: stopped
 
+- name: reload consul
+  become: yes
+  service:
+    name: consul
+    state: reloaded
+
 - name: restart consul
   become: yes
   service:

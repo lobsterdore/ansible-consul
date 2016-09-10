@@ -8,6 +8,13 @@
   with_items:
     - unzip
 
+- name: Install Dnsmasq if using as nameserver
+  become: yes
+  apt:
+    name: dnsmasq
+    state: present
+  when: consul.use_as_nameserver | bool
+
 - name: Create Consul required directories
   become: yes
   file:

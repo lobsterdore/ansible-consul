@@ -23,3 +23,27 @@
   service:
     name: consul
     state: restarted
+
+- name: start dnsmasq
+  become: yes
+  service:
+    name: dnsmasq
+    state: started
+
+- name: stop dnsmasq
+  become: yes
+  service:
+    name: dnsmasq
+    state: stopped
+
+- name: reload dnsmasq
+  become: yes
+  service:
+    name: dnsmasq
+    state: reloaded
+
+- name: restart dnsmasq
+  become: yes
+  service:
+    name: dnsmasq
+    state: restarted

@@ -14,6 +14,13 @@
   "leave_on_terminate": {{ consul.settings.leave_on_terminate }},
   "log_level": "{{ consul.settings.log_level }}",
   "node_name": "{{ consul.settings.node_name }}",
+{% if consul.settings.ports %}
+  "ports": {
+    {% for name, port in consul.settings.ports.iteritems() %}
+      "{{ name }}": {{ port }}{% if not loop.last%},{% endif %}
+    {% endfor %}
+  },
+{% endif %}
   "rejoin_after_leave": {{ consul.settings.rejoin_after_leave }},
   "server": {{ consul.settings.server }}
 }

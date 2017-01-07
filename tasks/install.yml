@@ -30,6 +30,10 @@
     dest: "/var/tmp/consul_{{ consul.version }}_linux_amd64.zip"
     sha256sum: "{{ consul.checksum }}"
     validate_certs: "{{ consul.ansible.validate_certs }}"
+  register: consul_download_data
+  until: consul_download_data | success
+  retries: 3
+  delay: 10
 
 - name: Extract Consul
   become: yes

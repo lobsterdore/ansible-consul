@@ -29,6 +29,7 @@
     url: "https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_amd64.zip"
     dest: "/var/tmp/consul_{{ consul.version }}_linux_amd64.zip"
     sha256sum: "{{ consul.checksum }}"
+    validate_certs: "{{ consul.ansible.validate_certs }}"
 
 - name: Extract Consul
   become: yes

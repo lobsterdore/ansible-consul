@@ -2,6 +2,8 @@
 
 consul:
   # role settings
+  ansible:
+    validate_certs: true
   aws_ips_autodiscover:
     enabled: false
     lookup_filter: "Name=tag:Environment,Values=dev Name=tag:Role,Values=consul_server"

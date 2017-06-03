@@ -1,33 +1,35 @@
 ---
 
-consul:
-  # role settings
-  ansible:
-    validate_certs: true
-  aws_ips_autodiscover:
-    enabled: false
-    lookup_filter: "Name=tag:Environment,Values=dev Name=tag:Role,Values=consul_server"
-  bind_interface: eth0
-  checksum: "abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627"
-  directories:
-    config_dir: "/etc/consul.d"
-    data_dir: "/var/lib/consul"
-    install_dir: "/usr/share/consul"
-    log_dir: "/var/log/consul"
-  # for consuls json settings file
-  settings:
-    bootstrap: "false"
-    bootstrap_expect: "1"
-    datacenter: "aws-eu-west-1"
-    enable_debug: "false"
-    leave_on_terminate: "true"
-    log_level: "warn"
-    node_name: "{{ ansible_fqdn }}"
-    rejoin_after_leave: "true"
-    ports: {}
-    server: "false"
-    start_join: []
-  startopts: ""
-  # Install Dnsmasq and use Consul as nameserver
-  use_as_nameserver: no
-  version: "0.6.4"
+consul_ansible_validate_certs: true
+consul_aws_ips_autodiscover_enabled: false
+consul_aws_ips_autodiscover_lookup_filter: "Name=tag:Env,Values=prd Name=tag:Role,Values=consul_server Name=instance-state-name,Values=running"
+consul_bind_interface: eth0
+consul_checksum: "40ce7175535551882ecdff21fdd276cef6eaab96be8a8260e0599fadb6f1f5b8"
+consul_client_interface: lo
+consul_directories_config_dir: "/etc/consul.d"
+consul_directories_data_dir: "/var/lib/consul"
+consul_directories_install_dir: "/usr/share/consul"
+consul_directories_log_dir: "/var/log/consul"
+# for consuls json settings file add any key/pair here
+consul_settings:
+  bootstrap: false
+  bootstrap_expect: 1
+  datacenter: "aws-eu-west-1"
+  data_dir: "{{ consul_directories_data_dir }}"
+  enable_debug: false
+  leave_on_terminate: true
+  log_level: "warn"
+  node_name: "{{ ansible_fqdn }}"
+  rejoin_after_leave: true
+  ports: {}
+  retry_join: []
+  server: false
+# these settings will be converted to ints in json config file
+consul_settings_ints:
+  - bootstrap_expect
+  - retry_max
+  - retry_max_wan
+consul_startopts: ""
+# install Dnsmasq and use Consul as nameserver
+consul_use_as_nameserver: no
+consul_version: "0.7.5"

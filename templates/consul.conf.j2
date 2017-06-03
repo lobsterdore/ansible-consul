@@ -13,17 +13,18 @@ script
   # Make sure to use all our CPUs, because Consul can block a scheduler thread
   export GOMAXPROCS=`nproc`
 
-  # Get the public IP
-  BIND=`ifconfig $BIND_INTERFACE | grep "inet addr" | awk '{ print substr($2,6) }'`
-
-  #JOIN_STR=$( /usr/local/bin/aws_ips_autodiscover )
-
-  #[ -z "${JOIN_STR}" ] || exit 1
+  BIND=$( ifconfig $BIND_INTERFACE \
+    | grep "inet addr" \
+    | awk '{ print substr($2,6) }' )
+  CLIENT=$( ifconfig $CLIENT_INTERFACE \
+    | grep "inet addr" \
+    | awk '{ print substr($2,6) }' )
 
   exec /usr/bin/consul agent \
-    -config-dir="{{ consul.directories.config_dir }}" \
+    -config-dir="{{ consul_directories_config_dir }}" \
     -bind=$BIND \
+    -client=$CLIENT \
     ${JOIN_STR} \
     ${CONSUL_STARTOPS} \
-    >> {{ consul.directories.log_dir }}/consul.log 2>&1
+    >> {{ consul_directories_log_dir }}/consul.log 2>&1
 end script

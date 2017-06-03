@@ -3,4 +3,9 @@
 .vagrant
 bin/
 vendor/
-
+/meta/.galaxy_install_info
+*.bak
+*.retry
+lobsterdore.*
+*.swp
+Dockerfile*

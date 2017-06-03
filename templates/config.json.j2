@@ -1,26 +1,15 @@
-{
-{% if consul.settings.server == 'true' and consul.settings.bootstrap == 'true' %}
-  "bootstrap": true,
+{% if not "data_dir" in consul_settings %}
+  {% set x=consul_settings.__setitem__ ('data_dir', consul_directories_data_dir) %}
 {% endif %}
-{% if consul.settings.server == 'true' and consul.settings.bootstrap != 'true' %}
-  "bootstrap_expect": {{ consul.settings.bootstrap_expect }},
+
+{% if not "node_name" in consul_settings %}
+  {% set x=consul_settings.__setitem__('node_name', ansible_fqdn) %}
 {% endif %}
-{% if consul.settings.start_join %}
-  "start_join": [{% for host in consul.settings.start_join  %}"{{host}}"{% if not loop.last %}, {% endif %}{% endfor %}],
-{% endif %}
-  "datacenter": "{{ consul.settings.datacenter }}",
-  "data_dir": "{{ consul.directories.data_dir  }}",
-  "enable_debug": {{ consul.settings.enable_debug }},
-  "leave_on_terminate": {{ consul.settings.leave_on_terminate }},
-  "log_level": "{{ consul.settings.log_level }}",
-  "node_name": "{{ consul.settings.node_name }}",
-{% if consul.settings.ports %}
-  "ports": {
-    {% for name, port in consul.settings.ports.iteritems() %}
-      "{{ name }}": {{ port }}{% if not loop.last%},{% endif %}
-    {% endfor %}
-  },
-{% endif %}
-  "rejoin_after_leave": {{ consul.settings.rejoin_after_leave }},
-  "server": {{ consul.settings.server }}
-}
+
+{% for setting, value in consul_settings.iteritems(): %}
+  {% if setting in consul_settings_ints %}
+    {% set x=consul_settings.__setitem__(setting, value | int ) %}
+  {% endif %}
+{% endfor %}
+
+{{ consul_settings | to_nice_json }}

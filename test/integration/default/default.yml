@@ -5,12 +5,11 @@
 
   roles:
     - role: ansible-consul
-      consul:
-        bind_interface: "lo"
-        settings:
-          bootstrap_expect: 1
-          server: "true"
-        use_as_nameserver: yes
+      consul_bind_interface: "lo"
+      consul_settings:
+        bootstrap_expect: 1
+        server: "true"
+      consul_use_as_nameserver: yes
 
   post_tasks:
     - name: Make sure Consul is up to date

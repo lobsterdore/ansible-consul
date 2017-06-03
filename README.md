@@ -50,6 +50,7 @@ Example single server setup:
 dependencies:
 
   - role: ansible-consul
+    become: yes
     consul_settings:
       bootstrap: false
       bootstrap_expect: 1
@@ -69,6 +70,7 @@ Example agent setup:
 dependencies:
 
   - role: ansible-consul
+    become: yes
     consul_settings:
       datacenter: "aws-eu-west-1"
       leave_on_terminate: true
@@ -89,6 +91,7 @@ Enable AWS discovery via tags:
 dependencies:
 
   - role: ansible-consul
+    become: yes
     consul_aws_ips_autodiscover_enabled: true
     consul_aws_ips_autodiscover_lookup_filter: "Name=tag:Env,Values=prd Name=tag:Role,Values=consul_server Name=instance-state-name,Values=running"
     consul_settings:

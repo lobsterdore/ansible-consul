@@ -5,6 +5,7 @@
 
   roles:
     - role: ansible-consul
+      become: yes
       consul_bind_interface: "lo"
       consul_settings:
         bootstrap_expect: 1

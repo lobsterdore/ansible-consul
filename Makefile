@@ -1,30 +1,31 @@
+SHELL:=/bin/bash
 
-all: test clean
+VAGRANT_BOX?=ubuntu/trusty64
 
-test: test_deps vagrant_up
+.DEFAULT_GOAL:=help
+.PHONY: help
 
-watch: test_deps
-	while sleep 1; do \
-		find defaults/ handlers/ meta/ tasks/ templates/ test/integration/default/default.yml \
-		| entr make vagrant_up; \
-	done
+## Prints this help
+help:
+	@awk -v skip=1 \
+		'/^##/ { sub(/^[#[:blank:]]*/, "", $$0); doc_h=$$0; doc=""; skip=0; next } \
+		 skip  { next } \
+		 /^#/  { doc=doc "\n" substr($$0, 2); next } \
+		 /:/   { sub(/:.*/, "", $$0); printf "\033[34m%-30s\033[0m\033[1m%s\033[0m %s\n\n", $$0, doc_h, doc; skip=1 }' \
+		$(MAKEFILE_LIST)
 
-integration_test: integration_test_deps
+## Test role locally using Vagrant
+test: test_deps lint
 	./bin/kitchen test
 
 test_deps:
-	@echo 'No deps'
+	bundle install
 
-integration_test_deps:
-	bundler install
+lint:
+	find defaults/ meta/ tasks/ templates/ vars/ -name "*.yml" | xargs -I{} ansible-lint {}
 
-vagrant_up:
-	vagrant up --no-provision
-	vagrant provision
-
-vagrant_ssh:
-	vagrant up || exit 1; \
-	vagrant ssh
-
+## Remove test Vagrant machine
 clean:
-	vagrant destroy
+	rm -rf lobsterdore.ansible-consul
+	vagrant destroy -f
+	./bin/kitchen destroy

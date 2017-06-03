@@ -1,0 +1,40 @@
+---
+
+group: stable
+dist: trusty
+
+branches:
+  only:
+    - develop
+    - master
+
+sudo: required
+services:
+    - docker
+
+language: ruby
+rvm:
+  - 2.2
+
+env:
+  - ANSIBLE_INSTALL_VERSION=2.1.5.0
+  - ANSIBLE_INSTALL_VERSION=2.2.3.0
+  - ANSIBLE_INSTALL_VERSION=2.3.0.0
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install ansible==${ANSIBLE_INSTALL_VERSION} ansible-lint
+  - pip install virtualenv
+
+script:
+  # Setup
+  - make test_deps
+  # Test formatting
+  - make lint
+  # Run all tests
+  - make test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

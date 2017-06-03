@@ -1,0 +1,15 @@
+[Unit]
+Description=consul agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+Environment=GOMAXPROCS=2
+ExecStart=/bin/bash -a -c 'source /etc/default/consul && /usr/bin/consul agent $CONSUL_STARTOPS >> {{ consul_directories_log_dir }}/consul.log 2>&1'
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

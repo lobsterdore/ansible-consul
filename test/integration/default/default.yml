@@ -8,7 +8,7 @@
       consul_bind_interface: "lo"
       consul_settings:
         bootstrap_expect: 1
-        server: "true"
+        server: true
       consul_use_as_nameserver: yes
 
   post_tasks:

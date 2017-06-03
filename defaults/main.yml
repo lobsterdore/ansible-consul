@@ -13,7 +13,6 @@ consul_directories_log_dir: "/var/log/consul"
 # for consuls json settings file add any key/pair here
 consul_settings:
   bootstrap: false
-  bootstrap_expect: 1
   datacenter: "aws-eu-west-1"
   data_dir: "{{ consul_directories_data_dir }}"
   enable_debug: false
@@ -21,7 +20,6 @@ consul_settings:
   log_level: "warn"
   node_name: "{{ ansible_fqdn }}"
   rejoin_after_leave: true
-  ports: {}
   retry_join: []
   server: false
 # these settings will be converted to ints in json config file

@@ -1,7 +1,6 @@
 ---
 
 - name: Install required packages
-  become: yes
   apt:
     name: "{{ item }}"
     state: present
@@ -9,14 +8,12 @@
     - unzip
 
 - name: Install Dnsmasq if using as nameserver
-  become: yes
   apt:
     name: dnsmasq
     state: present
   when: consul_use_as_nameserver | bool
 
 - name: Create Consul required directories
-  become: yes
   file:
     mode: 0755
     path: "{{ item }}"
@@ -28,7 +25,6 @@
     - "{{ consul_directories_log_dir }}"
 
 - name: Download Consul
-  become: yes
   get_url:
     url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
     dest: "/var/tmp/consul_{{ consul_version }}_linux_amd64.zip"
@@ -40,7 +36,6 @@
   delay: 10
 
 - name: Extract Consul
-  become: yes
   unarchive:
     copy: no
     creates: "{{ consul_directories_install_dir }}/consul"
@@ -48,7 +43,6 @@
     src: "/var/tmp/consul_{{ consul_version }}_linux_amd64.zip"
 
 - name: Link to Consul binary
-  become: yes
   file:
     dest: /usr/bin/consul
     mode: 731
@@ -56,7 +50,6 @@
     state: link
 
 - name: Install Consul service for upstart
-  become: yes
   template:
     dest: /etc/init/consul.conf
     mode: 0755
@@ -64,7 +57,6 @@
   when: ansible_service_mgr == "upstart"
 
 - name: Install Consul service for systemd
-  become: yes
   template:
     dest: /etc/systemd/system/consul.service
     mode: 0755
@@ -72,7 +64,6 @@
   when: ansible_service_mgr == "systemd"
 
 - name: Enable Consul service
-  become: yes
   service:
     enabled: yes
     name: consul

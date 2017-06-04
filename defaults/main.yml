@@ -4,7 +4,7 @@ consul_ansible_validate_certs: true
 consul_aws_ips_autodiscover_enabled: false
 consul_aws_ips_autodiscover_lookup_filter: "Name=tag:Env,Values=prd Name=tag:Role,Values=consul_server Name=instance-state-name,Values=running"
 consul_bind_interface: eth0
-consul_checksum: "40ce7175535551882ecdff21fdd276cef6eaab96be8a8260e0599fadb6f1f5b8"
+consul_checksum: "f894383eee730fcb2c5936748cc019d83b220321efd0e790dae9a3266f5d443a"
 consul_client_interface: lo
 consul_directories_config_dir: "/etc/consul.d"
 consul_directories_data_dir: "/var/lib/consul"
@@ -30,4 +30,4 @@ consul_settings_ints:
 consul_startopts: ""
 # install Dnsmasq and use Consul as nameserver
 consul_use_as_nameserver: no
-consul_version: "0.7.5"
+consul_version: "0.8.3"

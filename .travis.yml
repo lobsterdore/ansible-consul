@@ -1,7 +1,7 @@
 ---
 
 group: stable
-dist: trusty
+dist: xenial
 
 branches:
   only:
@@ -17,16 +17,15 @@ rvm:
   - 2.2
 
 env:
-  - ANSIBLE_INSTALL_VERSION=2.1.5.0
-  - ANSIBLE_INSTALL_VERSION=2.2.3.0
-  - ANSIBLE_INSTALL_VERSION=2.3.0.0
+  - ANSIBLE_INSTALL_VERSION=2.4.6.0
+  - ANSIBLE_INSTALL_VERSION=2.5.15
 
 before_install:
   - sudo apt-get update -qq
 
 install:
-  - pip install ansible==${ANSIBLE_INSTALL_VERSION} ansible-lint
-  - pip install virtualenv
+  - sudo pip install ansible==${ANSIBLE_INSTALL_VERSION} ansible-lint
+  - sudo pip install virtualenv
 
 script:
   # Setup

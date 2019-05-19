@@ -3,10 +3,12 @@ JOIN_STR="$( /usr/local/bin/aws_ips_autodiscover )"
 {% else %}
 JOIN_STR=""
 {% endif %}
-BIND=$( ifconfig "{{ consul_bind_interface | default('eth0') }}" \
-  | grep "inet addr" \
-  | awk '{ print substr($2,6) }' )
-CLIENT=$( ifconfig "{{ consul_client_interface | default('eth0') }}" \
-  | grep "inet addr" \
-  | awk '{ print substr($2,6) }' )
+BIND=$( ip addr show {{ consul_bind_interface | default('eth0') }} \
+  | grep "inet " \
+  | awk '{ print substr($2,0) }' \
+  | sed 's:/.*::' )
+CLIENT=$( ip addr show {{ consul_client_interface | default('eth0') }} \
+  | grep "inet " \
+  | awk '{ print substr($2,0) }' \
+  | sed 's:/.*::' )
 CONSUL_STARTOPS="-config-dir={{ consul_directories_config_dir }} -bind=${BIND} -client=${CLIENT} ${JOIN_STR} {{ consul_startopts }}"

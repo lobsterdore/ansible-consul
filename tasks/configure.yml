@@ -32,7 +32,47 @@
   service:
     state: restarted
     name: dnsmasq
-  when: consul_nameserver_config.changed
+  when:
+    - consul_use_as_nameserver | bool
+    - consul_nameserver_config.changed
+
+- name: Disable SystemD resolvd
+  become: yes
+  systemd:
+    enabled: no
+    name: systemd-resolved
+    state: stopped
+  when:
+    - consul_use_as_nameserver | bool
+    - ansible_service_mgr == "systemd"
+
+- name: Check SystemD resolve.conf exists
+  stat:
+    path: /run/systemd/resolve/resolv.conf
+  register: consul_resolve_stat
+
+- name: Fix resolve.conf for Dnsmasq
+  become: yes
+  file:
+    dest: /etc/resolv.conf
+    mode: 600
+    src: /run/systemd/resolve/resolv.conf
+    state: link
+  when:
+    - consul_use_as_nameserver | bool
+    - ansible_service_mgr == "systemd"
+    - consul_resolve_stat.stat.exists
+
+- name: Add Dnsmasq to resolve.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^nameserver 127\.0\.0\.1'
+    insertbefore: BOF
+    line: "nameserver 127.0.0.1"
+  when:
+    - consul_use_as_nameserver | bool
+    - consul_resolve_stat.stat.exists
+    - ansible_service_mgr == "systemd"
 
 - name: Start Consul service
   service:

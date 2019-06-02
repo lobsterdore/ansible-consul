@@ -55,6 +55,7 @@
   become: yes
   file:
     dest: /etc/resolv.conf
+    force: yes
     mode: 600
     src: /run/systemd/resolve/resolv.conf
     state: link
